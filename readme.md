@@ -69,3 +69,7 @@ Crear un sistema (API REST) de un e-commerce para una tienda en linea con expres
 - En el historial de pedidos se pueden ver los productos que fueron seleccionados así como la cantidad y el precio en el que fueron comprados (Los precios del producto se pueden actualizar cuadno el admisnitrador lo desee pero una vez se haya realizado el pago, cualquier actualización del precio no se verá reflejado en la compra del cliente ya pagada)
 ​
 - Para que un usuario pueda realizar un compra o editar un carrito, necesita tener una sesión iniciada (authenticated, authorizaed)
+
+# Project architecure
+
+ 

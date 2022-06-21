@@ -1,13 +1,21 @@
 import express, {Application} from 'express';
 import cors from 'cors';
 
+import RoutesSingleton from './routes';
+import Database from './config/database';
+
 class Server {
     private app: Application;
     private port: String;
+    private db: Database;
     constructor() {
         this.app = express();
         this.port = process.env.PORT || '3000';
+        this.db = new Database();
+        
         this.middlewares();
+        this.routes();
+        this.database();
     }
 
     listen() {
@@ -22,7 +30,11 @@ class Server {
     }
 
     routes() {
+        new RoutesSingleton(this.app).setRoutes();
+    }
 
+    async database() {
+        await this.db.connect()
     }
 }
 
