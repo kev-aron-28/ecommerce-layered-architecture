@@ -1,14 +1,9 @@
-import DalUser from './dalUser';
+import dalUser from './dalUser';
 import { userModel } from './modelUser';
 import bcrypt from 'bcryptjs';
 import { generateJWT } from '../../common/helpers/jwt';
 
 class userService {
-    private dalUser: DalUser;
-    constructor() {
-        this.dalUser = new DalUser();
-    }
-
     async createUser(body: any) {
         const { 
             firstName,
@@ -35,13 +30,13 @@ class userService {
         const salt = bcrypt.genSaltSync();
         userToCreate.password = bcrypt.hashSync(userToCreate.password, salt);
 
-        const createdUser = await this.dalUser.createUser(userToCreate);
+        const createdUser = await dalUser.createUser(userToCreate);
         return createdUser;
     }
 
     async loginUser(body: any){
         const { email, password } = body;
-        const { status, user, msg } = await this.dalUser.loginUser(email);
+        const { status, user, msg } = await dalUser.loginUser(email);
         const userToLogin: any = user;
         const isValidPassword = bcrypt.compareSync(password, userToLogin.password);
         
@@ -52,13 +47,18 @@ class userService {
             }
         }
 
-        const token = await generateJWT(userToLogin.uid);
+        const token = await generateJWT(userToLogin._id);
 
         return { 
             token,
             user: userToLogin
         }
 
+    }
+
+    async getUserById(id: string) {
+        const userById = await dalUser.getUserById(id);
+        return userById;
     }
 
     

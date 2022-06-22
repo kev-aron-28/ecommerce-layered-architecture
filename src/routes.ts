@@ -1,16 +1,13 @@
 import { Application } from 'express'
 import UserSingleton from './modules/user';
+import ProductSingleton from './modules/product';
 
 class RoutesSingleton {
     
-    private User;
-    constructor(private app: Application) {
-        this.User = new UserSingleton(this.app);
-    }
-
-    setRoutes() {
-        new UserSingleton(this.app).setUserRoutes(this.User);            
+    init(app: Application) {
+        UserSingleton.setUserRoutes(UserSingleton, app);  
+        ProductSingleton.setProductRoutes(ProductSingleton, app);
     }
 }
 
-export default RoutesSingleton;
+export default new RoutesSingleton();

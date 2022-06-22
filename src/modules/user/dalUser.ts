@@ -1,5 +1,4 @@
 import User, { userModel } from './modelUser';
-import bcrypt from 'bcryptjs';
 
 class DalUser {
     constructor() {}
@@ -20,12 +19,26 @@ class DalUser {
                 msg: 'The user does not exist'
             }
         }
-
         return { 
             status: 'success',
             user: userToLogin
         };
     }
+
+    async getUserById(uid: string){
+        const userById = await User.findById(uid);
+        if(!userById) {
+            return {
+                status: 'error',
+                msg: 'Could not find user'
+            }
+        }
+
+        return { 
+            user: userById,
+            status: 'success'
+        }
+    }
 }
 
-export default DalUser;
+export default new DalUser();

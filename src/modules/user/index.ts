@@ -2,18 +2,23 @@ import { Application } from 'express';
 import UserRoutes from './routesUser';
 import UserService from './serviceUser';
 
+export abstract class User {
+    abstract setUserRoutes(module: any, app: Application):void;
+    abstract userService: UserService;
+}
 
-class UserSingleton {
+class UserSingleton implements User {
 
     public userService: UserService;
-    constructor(private app: Application){
+    constructor(){
         this.userService = new UserService();
     }
 
-    setUserRoutes(module: any) {
-        new UserRoutes(this.app, module).userRoutes();
+    setUserRoutes(module: any, app: Application) {
+        new UserRoutes(app, module).setUserRoutes();
     }
 }
 
-export default UserSingleton;
+export default new UserSingleton();
+
 

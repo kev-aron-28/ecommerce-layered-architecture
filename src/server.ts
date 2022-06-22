@@ -30,7 +30,7 @@ class Server {
     }
 
     routes() {
-        new RoutesSingleton(this.app).setRoutes();
+        RoutesSingleton.init(this.app);
     }
 
     async database() {

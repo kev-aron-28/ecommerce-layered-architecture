@@ -1,12 +1,12 @@
 import jwt, { Secret } from 'jsonwebtoken';
+import { SECRETORPRIVATEKEY } from '../constants';
 
 export const generateJWT = (uid: string) => {
     return new Promise((resolve, reject) => {
       const payload = { uid };
-      const secret: Secret = 'hola';
       jwt.sign(
         payload,
-        secret,
+        SECRETORPRIVATEKEY,
         {
           expiresIn: "4h",
         },
