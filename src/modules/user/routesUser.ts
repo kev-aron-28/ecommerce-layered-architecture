@@ -48,14 +48,11 @@ class UserRoutes {
         ], async (req: Request, res: Response) => {
             try {
                 const { token, user } = await this.userModule.userService.loginUser(req.body);
-                return res.json({ 
-                    token,
-                    user
-                })
+                return res.json({ token,user });
             } catch (error) {
                 return res.status(500).json({
                     status: 'error'
-                })
+                });
             }
         })
     }

@@ -16,6 +16,7 @@ class ProductRoutes {
 
     setProductRoutes() {
         this.productRegisterRoute();
+        this.productUpdateRoute();
     }
 
     productRegisterRoute() {
@@ -33,6 +34,31 @@ class ProductRoutes {
         ], async (req: Request, res: Response) => {
             try {
                 const { status, product } = await this.productModule.productService.createProduct(req.body);
+                return res.json({ product, status });
+            } catch (error) {
+                return res.status(500).json({ 
+                    status: 'error'
+                })
+            }
+        })
+    }
+
+    productUpdateRoute() {
+        this.app.put('/products/:id/update',[
+            validateJWT,
+            validateRole,
+            check('name').optional(),
+            check('provider').optional(),
+            check('stock').isInt().optional(),
+            check('price').isFloat().optional(),
+            check('category').isArray().optional(),
+            check('specifications').isArray().optional(),
+            check('description').optional(),
+            validateFields
+        ], async (req: Request, res: Response) => {
+            try {
+                const { id } = req.params;
+                const { status, product } = await this.productModule.productService.updateProduct(req.body, id);
                 return res.json({ product, status });
             } catch (error) {
                 return res.status(500).json({ 

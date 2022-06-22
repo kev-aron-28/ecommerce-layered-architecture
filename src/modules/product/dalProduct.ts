@@ -1,6 +1,16 @@
 import Product, { productModel } from './modelProduct';
 
 
+export interface productToUpdateFields {
+    name?: string,
+    provider?: string,
+    stock?: Number,
+    price?: number,
+    category?: string[],
+    specifications?: string[],
+    description?:  string,
+};
+
 class DalProduct {
 
     async createProduct(product: productModel) {
@@ -10,6 +20,21 @@ class DalProduct {
             status: 'success',
             product: createdProduct
         }   
+    }
+
+    async updateProduct(productToUpdate: productToUpdateFields, id: string) {
+        const updatedProduct = await Product.findByIdAndUpdate(id, productToUpdate, { new: true });
+        if(!updatedProduct) {
+            return {
+                status: 'error',
+                msg: 'Could not update the product'
+            }
+        }
+
+        return { 
+            product: updatedProduct,
+            status: 'success'
+        }
     }
 }
 
