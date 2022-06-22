@@ -51,6 +51,11 @@ class productService {
         const updatedProduct = await dalProduct.updateProduct(productToUpdate, id);
         return updatedProduct;
     }
+
+    async deleteProduct(id: string) {
+        const deletedProduct = await dalProduct.deleteProduct(id);
+        return deletedProduct;
+    }
     
 }
 

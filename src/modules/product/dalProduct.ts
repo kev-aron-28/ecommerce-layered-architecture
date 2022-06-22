@@ -36,6 +36,21 @@ class DalProduct {
             status: 'success'
         }
     }
+
+    async deleteProduct(id: string) {
+        const deletedProduct = await Product.findByIdAndDelete(id);
+        if(!deletedProduct) {
+            return { 
+                status: 'error',
+                msg: 'Could not delete the product'
+            }
+        }
+
+        return { 
+            product: deletedProduct,
+            status: 'success'
+        }
+    }
 }
 
 export default new DalProduct();

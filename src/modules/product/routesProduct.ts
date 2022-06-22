@@ -17,6 +17,7 @@ class ProductRoutes {
     setProductRoutes() {
         this.productRegisterRoute();
         this.productUpdateRoute();
+        this.productDeleteRoute();
     }
 
     productRegisterRoute() {
@@ -47,6 +48,7 @@ class ProductRoutes {
         this.app.put('/products/:id/update',[
             validateJWT,
             validateRole,
+            check('id').isMongoId(),
             check('name').optional(),
             check('provider').optional(),
             check('stock').isInt().optional(),
@@ -59,6 +61,25 @@ class ProductRoutes {
             try {
                 const { id } = req.params;
                 const { status, product } = await this.productModule.productService.updateProduct(req.body, id);
+                return res.json({ product, status });
+            } catch (error) {
+                return res.status(500).json({ 
+                    status: 'error'
+                })
+            }
+        })
+    }
+
+    productDeleteRoute() {
+        this.app.delete('/products/:id/delete',[
+            validateJWT,
+            validateRole,
+            check('id').isMongoId(),
+            validateFields
+        ], async (req: Request, res: Response) => {
+            try {
+                const { id } = req.params;
+                const { status, product } = await this.productModule.productService.deleteProduct(id);
                 return res.json({ product, status });
             } catch (error) {
                 return res.status(500).json({ 
