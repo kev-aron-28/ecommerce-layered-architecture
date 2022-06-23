@@ -1,4 +1,4 @@
-import jwt, { Secret } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { SECRETORPRIVATEKEY } from '../constants';
 
 export const generateJWT = (uid: string) => {
@@ -12,7 +12,7 @@ export const generateJWT = (uid: string) => {
         },
         (err: any, token: any) => {
           if (err) {
-            reject('cannot generate token');
+            reject('Cannot generate token');
           } else {
             resolve(token);
           }
@@ -20,3 +20,4 @@ export const generateJWT = (uid: string) => {
       );
     });
 };
+

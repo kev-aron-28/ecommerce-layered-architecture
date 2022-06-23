@@ -3,7 +3,7 @@ import { userModel } from './modelUser';
 import bcrypt from 'bcryptjs';
 import { generateJWT } from '../../common/helpers/jwt';
 
-class userService {
+class UserService {
     async createUser(body: any) {
         const { 
             firstName,
@@ -64,4 +64,4 @@ class userService {
     
 }
 
-export default userService;
+export default UserService;

@@ -5,7 +5,7 @@ export interface productModel {
     provider: string,
     stock: Number,
     uid?: string,
-    price: number,
+    price: Number,
     category: string[],
     specifications: string[],
     description:  string,

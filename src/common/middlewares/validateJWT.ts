@@ -20,7 +20,6 @@ const validateJWT = async (req: any, res: Response, next: NextFunction) => {
   
     try {
       const tokenId:any = jwt.verify(token, SECRETORPRIVATEKEY);
-      console.log(tokenId);
       
       const { user } = await userService.getUserById(tokenId.uid);
       if(!user) {

@@ -23,7 +23,7 @@ class ProductRoutes {
     productRegisterRoute() {
         this.app.post('/products/register',[
             validateJWT,
-            validateRole,
+            validateRole('ADMIN_ROLE'),
             check('name').not().isEmpty(),
             check('provider').not().isEmpty(),
             check('stock').isInt(),
@@ -47,7 +47,7 @@ class ProductRoutes {
     productUpdateRoute() {
         this.app.put('/products/:id/update',[
             validateJWT,
-            validateRole,
+            validateRole('ADMIN_ROLE'),
             check('id').isMongoId(),
             check('name').optional(),
             check('provider').optional(),
@@ -73,7 +73,7 @@ class ProductRoutes {
     productDeleteRoute() {
         this.app.delete('/products/:id/delete',[
             validateJWT,
-            validateRole,
+            validateRole('ADMIN_ROLE'),
             check('id').isMongoId(),
             validateFields
         ], async (req: Request, res: Response) => {

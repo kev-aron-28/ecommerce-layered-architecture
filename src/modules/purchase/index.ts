@@ -1,15 +1,23 @@
 import { Application } from 'express';
+import PurchaseRoutes from './routesPurchase';
+import PurchaseService from './servicePurchase';
 
-class PurchaseSingleton {
+export abstract class Purchase {
+    abstract setPurchaseRoutes(module: any, app: Application):void;
+    abstract purchaseService: PurchaseService;
+}
 
+class PurchaseSingleton implements Purchase{
     
-    constructor(private app: Application){}
-
-    setPurchaseRoutes() {
-        
+    public purchaseService: PurchaseService;
+    constructor(){
+        this.purchaseService = new PurchaseService();
     }
 
+    setPurchaseRoutes(module: Purchase, app: Application) {
+        new PurchaseRoutes(app, module).setPurchaseRoutes();
+    }
 
 }
 
-export default PurchaseSingleton;
+export default new PurchaseSingleton();
