@@ -1,8 +1,18 @@
 import Purchase, { purchaseModel } from './modelPurchase';
 
-
-
 class DalUser {
+
+    async getPurchaseById(id: string) {
+        const purchaseById = await Purchase.findById(id)
+            .populate({ path: 'userId', model: 'user', select: 'firstName' })
+            .populate({ path: 'productId', model: 'product', select: 'name'})
+        console.log(purchaseById);
+        
+        return {
+            status: 'success',
+            purchase: purchaseById
+        }
+    }
 
     async createPurchase(purchase: purchaseModel) {
         const createdPurchase = new Purchase(purchase);
@@ -39,3 +49,4 @@ class DalUser {
 }
 
 export default new DalUser();
+

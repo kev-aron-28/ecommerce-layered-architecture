@@ -3,6 +3,12 @@ import { purchaseModel } from "./modelPurchase";
 
 class PurchaseService {
 
+
+    async getPurchaseById(id:string) {
+        const purchaseById = await dalPurchase.getPurchaseById(id);
+        return purchaseById;
+    }
+
     async createPurchase(body: any) {
         const {
             userId,

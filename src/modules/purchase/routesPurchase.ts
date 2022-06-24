@@ -4,15 +4,6 @@ import { Purchase } from '.';
 import validateFields from '../../common/middlewares/validateFields';
 import validateJWT from '../../common/middlewares/validateJWT';
 import validateRole from '../../common/middlewares/validateRole';
-// check('status').isIn([
-//     'waiting-confirmation', 
-//     'order-on-process', 
-//     'package-on-delivery',
-//     'package-delivered',
-        ''
-// ]),
-
-
 
 class PurchaseRoutes {
     private app: Application;
@@ -26,6 +17,7 @@ class PurchaseRoutes {
         this.purchaseRegisterRoute();
         this.purchaseUpdateRoute();
         this.purchaseDeleteRoute();
+        this.purchaseGetByIdRoute();
     }
 
     purchaseRegisterRoute() {
@@ -87,6 +79,25 @@ class PurchaseRoutes {
                 const { purchase, status } = await this.purchaseModule.purchaseService.deletePurchase(id);
                 return res.json({ purchase, status }); 
             } catch (error) {
+                return res.status(500).json({
+                    status: 'error'
+                })
+            }
+        })
+    }
+
+    purchaseGetByIdRoute() {
+        this.app.get('/purchase/:id',[
+            validateJWT,
+            check('id').isMongoId(),
+        ], async (req: Request, res: Response) => {
+            try {
+                const { id } = req.params;
+                const { purchase, status } = await this.purchaseModule.purchaseService.getPurchaseById(id);
+                return res.json({ purchase, status }); 
+            } catch (error) {
+                console.log(error);
+                
                 return res.status(500).json({
                     status: 'error'
                 })

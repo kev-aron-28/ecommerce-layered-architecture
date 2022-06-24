@@ -49,6 +49,25 @@ class DalProduct {
         return { 
             product: deletedProduct,
             status: 'success'
+     
+       }
+    }
+
+    async searchProduct(term: string) {
+        const regexTerm = new RegExp(term, 'i');
+        const products = await Product.find({ 
+            $or: [
+                { 'name': regexTerm },
+                { 'provider': regexTerm },
+                { 'description': regexTerm },
+                { 'price': regexTerm },
+                { 'stock': regexTerm}
+            ]
+        })
+
+        return { 
+            products: products? products : [],
+            status: 'success'
         }
     }
 }

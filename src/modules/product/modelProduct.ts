@@ -3,9 +3,9 @@ import { Schema, model } from 'mongoose';
 export interface productModel {
     name: string,
     provider: string,
-    stock: Number,
+    stock: string,
     uid?: string,
-    price: Number,
+    price: string,
     category: string[],
     specifications: string[],
     description:  string,
@@ -14,8 +14,8 @@ export interface productModel {
 const productSchema = new Schema<productModel>({
     name: { type: String },
     provider: { type: String },
-    stock: { type: Number },
-    price: { type: Number },
+    stock: { type: String },
+    price: { type: String },
     category: [{ type: String }],
     specifications: [{ type: String}],
     description: { type: String },

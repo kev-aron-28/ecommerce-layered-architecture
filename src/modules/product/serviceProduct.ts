@@ -56,6 +56,11 @@ class productService {
         const deletedProduct = await dalProduct.deleteProduct(id);
         return deletedProduct;
     }
+
+    async searchProduct(term: string) {
+        const products = await dalProduct.searchProduct(term);
+        return products;
+    }
     
 }
 

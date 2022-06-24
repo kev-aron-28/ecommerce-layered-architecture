@@ -1,7 +1,10 @@
 import { Application, Request, Response } from 'express';
 import { check } from 'express-validator';
+import { userByEmailExists } from '../../common/helpers/dbValidators';
 import ValidateFields from '../../common/middlewares/validateFields';
-import UserSingleton, { User } from './';
+import validateJWT from '../../common/middlewares/validateJWT';
+import validateRole from '../../common/middlewares/validateRole';
+import { User } from './';
 
 class UserRoutes {
     private app: Application;
@@ -14,7 +17,8 @@ class UserRoutes {
     setUserRoutes() {
         this.userRegisterRoute();
         this.userLoginRoute();
-        this.userByIdRoute()
+        this.userByIdRoute();
+        this.userAdminRoute();
     }
 
     userRegisterRoute() {
@@ -24,9 +28,9 @@ class UserRoutes {
             check('birthDate').not().isEmpty(),
             check('phone').isMobilePhone('any'),
             check('adress').not().isEmpty(),
-            check('email').isEmail(),
+            check('email').custom(userByEmailExists),
             check('password').not().isEmpty(),
-            check('role').isIn(['ADMIN_ROLE', 'USER_ROLE']),
+            check('role').isIn(['USER_ROLE']),
             ValidateFields
         ], async (req: Request, res: Response) => {
             try { 
@@ -64,6 +68,31 @@ class UserRoutes {
         ], async (req: Request, res: Response) => {
             try { 
                 const { user, status } = await this.userModule.userService.getUserById(req.params.id);    
+                return res.json({ user, status }); 
+            }  catch(error) {
+                return res.status(500).json({
+                    status: 'error'
+                })
+            }
+        })
+    }
+
+    userAdminRoute() {
+        this.app.post('/admins/register', [
+            validateJWT,
+            validateRole('ADMIN_ROLE'),
+            check('firstName').not().isEmpty(),
+            check('lastName').not().isEmpty(),
+            check('birthDate').not().isEmpty(),
+            check('phone').isMobilePhone('any'),
+            check('adress').not().isEmpty(),
+            check('email').custom(userByEmailExists),
+            check('password').not().isEmpty(),
+            check('role').isIn(['ADMIN_ROLE']),
+            ValidateFields
+        ], async (req: Request, res: Response) => {
+            try { 
+                const { user, status } = await this.userModule.userService.createUser(req.body);    
                 return res.json({ user, status }); 
             }  catch(error) {
                 return res.status(500).json({

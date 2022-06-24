@@ -61,6 +61,10 @@ class UserService {
         return userById;
     }
 
+    async getUserByEmail(email: string) {
+        const existsUserByEmail = await dalUser.getUserByEmail(email);
+        return existsUserByEmail;
+    }
     
 }
 

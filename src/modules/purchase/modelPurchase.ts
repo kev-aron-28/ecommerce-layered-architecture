@@ -1,19 +1,19 @@
 import { Schema, model } from 'mongoose';
 
 export interface purchaseModel {
-    userId: string,
-    productId: string,
+    userId: Schema.Types.ObjectId,
+    productId: Schema.Types.ObjectId,
     purchaseDate: Date,
-    actualPrice: Number,
+    actualPrice: string,
     status?: string,
     uid?: string
 };
 
 const purchaseModel = new Schema<purchaseModel>({
-    userId: { type: String },
-    productId: { type: String },
+    userId: { type: Schema.Types.ObjectId, ref: 'user', },
+    productId: { type: Schema.Types.ObjectId, ref: 'product', },
     purchaseDate: { type: Date },
-    actualPrice: { type: Number },
+    actualPrice: { type: String },
     status: { type: String, default: 'waiting-confirmation' },
     uid: String
 });

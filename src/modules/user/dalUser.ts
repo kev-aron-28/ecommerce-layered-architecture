@@ -39,6 +39,14 @@ class DalUser {
             status: 'success'
         }
     }
+
+    async getUserByEmail(email: string) {        
+        const userByEmail = await User.findOne({ email });        
+        if(!userByEmail) {
+            return false
+        }
+        return true;
+    }
 }
 
 export default new DalUser();

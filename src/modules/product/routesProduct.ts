@@ -18,6 +18,7 @@ class ProductRoutes {
         this.productRegisterRoute();
         this.productUpdateRoute();
         this.productDeleteRoute();
+        this.productSearchRoute();
     }
 
     productRegisterRoute() {
@@ -82,6 +83,22 @@ class ProductRoutes {
                 const { status, product } = await this.productModule.productService.deleteProduct(id);
                 return res.json({ product, status });
             } catch (error) {
+                return res.status(500).json({ 
+                    status: 'error'
+                })
+            }
+        })
+    }
+
+    productSearchRoute() {
+        this.app.get('/products/search/:term', async (req: Request, res: Response) => {
+            try {
+                const { term } = req.params;
+                const { status, products } = await this.productModule.productService.searchProduct(term);
+                return res.json({ status, products })
+            } catch (error) {
+                console.log(error);
+                
                 return res.status(500).json({ 
                     status: 'error'
                 })
