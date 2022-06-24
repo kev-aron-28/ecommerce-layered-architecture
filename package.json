@@ -10,11 +10,12 @@
     "express-validator": "^6.14.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.0",
+    "ts-node": "^10.8.1",
     "typescript": "^4.7.4"
   },
   "scripts": {
     "dev": "nodemon app.ts",
-    "start": "node ./dist/app.js"
+    "start": "ts-node app.ts"
   },
   "name": "ecommerce",
   "version": "1.0.0",
