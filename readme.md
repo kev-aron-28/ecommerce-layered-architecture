@@ -70,6 +70,7 @@ Crear un sistema (API REST) de un e-commerce para una tienda en linea con expres
 ​
 - Para que un usuario pueda realizar un compra o editar un carrito, necesita tener una sesión iniciada (authenticated, authorizaed)
 
-# Project architecure
+# Documentacion: 
+- https://documenter.getpostman.com/view/18439949/UzBqoQkA
 
  
