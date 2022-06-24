@@ -46,6 +46,15 @@ class DalUser {
             purchase: deletedPurchase
         }
     }
+
+    async getPurchaseHistory(id: string) {
+        const purchases = await Purchase.find({ userId: id })
+            .populate({ path: 'productId', model: 'product', select: 'name'});
+        return {
+            status: 'success',
+            purchases
+        }
+    }
 }
 
 export default new DalUser();

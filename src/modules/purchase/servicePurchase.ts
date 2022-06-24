@@ -34,6 +34,11 @@ class PurchaseService {
         const deletedPurchase = await dalPurchase.deletePurchase(id);
         return deletedPurchase;
     }
+
+    async getPurchaseHistory(id: string) {
+        const purchases = await dalPurchase.getPurchaseHistory(id);
+        return purchases;
+    }
 }
 
 export default PurchaseService;

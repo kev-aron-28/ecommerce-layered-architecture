@@ -18,6 +18,7 @@ class PurchaseRoutes {
         this.purchaseUpdateRoute();
         this.purchaseDeleteRoute();
         this.purchaseGetByIdRoute();
+        this.purchaseGetHistoryById()
     }
 
     purchaseRegisterRoute() {
@@ -95,9 +96,24 @@ class PurchaseRoutes {
                 const { id } = req.params;
                 const { purchase, status } = await this.purchaseModule.purchaseService.getPurchaseById(id);
                 return res.json({ purchase, status }); 
-            } catch (error) {
-                console.log(error);
-                
+            } catch (error) {                
+                return res.status(500).json({
+                    status: 'error'
+                })
+            }
+        })
+    }
+
+    purchaseGetHistoryById() {
+        this.app.get('/purchase/history/:id',[
+            validateJWT,
+            check('id').isMongoId(),
+        ], async (req: Request, res: Response) => {
+            try {
+                const { id } = req.params;
+                const { purchases, status } = await this.purchaseModule.purchaseService.getPurchaseHistory(id);
+                return res.json({ purchases, status }); 
+            } catch (error) {                
                 return res.status(500).json({
                     status: 'error'
                 })
